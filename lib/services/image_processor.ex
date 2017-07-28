@@ -6,7 +6,8 @@ defmodule Geminiex.ImageProcessor do
       |> read_remote_image()
       |> open()
       |> resize("#{params["width"]}x#{params["height"]}")
-      |> save(in_place: true)
+      |> process_formatting(params)
+      |> save()
       |> verbose()
   end
 
@@ -16,12 +17,16 @@ defmodule Geminiex.ImageProcessor do
     end)
   end
 
-  def read_remote_image(src) do
+  defp read_remote_image(src) do
     remote_file = HTTPoison.get!(src)
     file_name = Ecto.UUID.generate
                   |> binary_part(16,16)
     file_path = "/tmp/" <> file_name
     File.write(file_path, remote_file.body)
     file_path
+  end
+
+  defp process_formatting(image, params) do
+    if params["convert_to"], do: format(image, params["convert_to"]), else: image
   end
 end
