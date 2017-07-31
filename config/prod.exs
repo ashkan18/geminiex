@@ -14,7 +14,7 @@ use Mix.Config
 config :geminiex, Geminiex.Endpoint,
   http: [port: {:system, "PORT"}],
   url: [host: System.get_env("APR_HOST") || "geminiex.artsy.net", port: 80],
-  cache_static_manifest: "priv/static/manifest.json"
+  cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
 config :logger, level: :info
