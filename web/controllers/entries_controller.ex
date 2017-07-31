@@ -1,7 +1,7 @@
 defmodule Geminiex.EntriesController do
   use Geminiex.Web, :controller
 
-  alias Geminiex.{Repo, Entry, ImageProcessor}
+  alias Geminiex.{ImageProcessor}
 
   def crop(conn, params) do
     case convert_and_validate_params(params) do
@@ -10,7 +10,7 @@ defmodule Geminiex.EntriesController do
           |> send_resp(400, "Bad request")
           |> halt()
       cleaned_params ->
-        case cleaned_params["src"] || entry_image_src(cleaned_params["token"]) do
+        case cleaned_params["src"] do
           nil ->
             conn
               |> send_resp(404, "Cant find image source.")
@@ -43,15 +43,6 @@ defmodule Geminiex.EntriesController do
           "quality" => quality})
     else
       {:error}
-    end
-  end
-
-  defp entry_image_src(token) do
-    case Repo.get_by(Entry, token: token) do
-      nil ->
-        nil
-      entry ->
-        entry.source_url
     end
   end
 end
