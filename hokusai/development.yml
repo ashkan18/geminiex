@@ -1,0 +1,14 @@
+---
+version: '2'
+services:
+  geminiex:
+    command: mix run
+    environment:
+    - MIX_ENV=dev
+    extends:
+      file: common.yml
+      service: geminiex
+    ports:
+    - 80:80
+    volumes:
+    - ../:/app
