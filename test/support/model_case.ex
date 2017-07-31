@@ -16,21 +16,21 @@ defmodule Geminiex.ModelCase do
 
   using do
     quote do
-      alias Geminiex.Repo
+      # alias Geminiex.Repo
 
-      import Ecto
-      import Ecto.Changeset
-      import Ecto.Query, only: [from: 1, from: 2]
+      # import Ecto
+      # import Ecto.Changeset
+      # import Ecto.Query, only: [from: 1, from: 2]
       import Geminiex.ModelCase
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Geminiex.Repo)
+    # :ok = Ecto.Adapters.SQL.Sandbox.checkout(Geminiex.Repo)
 
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Geminiex.Repo, {:shared, self()})
-    end
+    # unless tags[:async] do
+    #   Ecto.Adapters.SQL.Sandbox.mode(Geminiex.Repo, {:shared, self()})
+    # end
 
     :ok
   end

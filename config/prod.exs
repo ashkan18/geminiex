@@ -13,11 +13,19 @@ use Mix.Config
 # which you typically run after static files are built.
 config :geminiex, Geminiex.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/manifest.json"
+  url: [host: System.get_env("APR_HOST") || "geminiex.artsy.net", port: 80],
+  cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
 config :logger, level: :info
+
+# config :geminiex, Geminiex.Repo,
+#   adapter: Ecto.Adapters.Postgres,
+#   username: System.get_env("DB_USER"),
+#   password: System.get_env("DB_PASSWORD"),
+#   database: System.get_env("DB_NAME"),
+#   hostname: System.get_env("DB_HOST"),
+#   pool_size: 10
 
 # ## SSL Support
 #
@@ -62,4 +70,4 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
+# import_config "prod.secret.exs"

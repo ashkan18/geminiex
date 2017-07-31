@@ -20,10 +20,10 @@ defmodule Geminiex.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
-      alias Geminiex.Repo
-      import Ecto
-      import Ecto.Changeset
-      import Ecto.Query, only: [from: 1, from: 2]
+      # alias Geminiex.Repo
+      # import Ecto
+      # import Ecto.Changeset
+      # import Ecto.Query, only: [from: 1, from: 2]
 
 
       # The default endpoint for testing
@@ -32,11 +32,11 @@ defmodule Geminiex.ChannelCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Geminiex.Repo)
+    # :ok = Ecto.Adapters.SQL.Sandbox.checkout(Geminiex.Repo)
 
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Geminiex.Repo, {:shared, self()})
-    end
+    # unless tags[:async] do
+    #   Ecto.Adapters.SQL.Sandbox.mode(Geminiex.Repo, {:shared, self()})
+    # end
 
     :ok
   end

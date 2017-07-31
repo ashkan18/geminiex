@@ -19,7 +19,7 @@ defmodule Geminiex.Mixfile do
   def application do
     [mod: {Geminiex, []},
      applications: [:phoenix, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :httpoison]]
+                    :httpoison]]
   end
 
   # Specifies which paths to compile per environment.
@@ -31,8 +31,8 @@ defmodule Geminiex.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [{:phoenix, "~> 1.3.0"},
-     {:phoenix_ecto, "~> 3.2.2"},
-     {:postgrex, ">= 0.0.0"},
+     #{:phoenix_ecto, "~> 3.2.2"},
+     #{:postgrex, ">= 0.0.0"},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:httpoison, "~> 0.12"},
@@ -46,7 +46,8 @@ defmodule Geminiex.Mixfile do
   #
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
-    ["ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-     "ecto.reset": ["ecto.drop", "ecto.setup"]]
+    []
+    # ["ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+    #  "ecto.reset": ["ecto.drop", "ecto.setup"]]
   end
 end

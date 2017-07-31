@@ -10,7 +10,7 @@ defmodule Geminiex do
       # Start the endpoint when the application starts
       supervisor(Geminiex.Endpoint, []),
       # Start the Ecto repository
-      supervisor(Geminiex.Repo, []),
+      # supervisor(Geminiex.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(Geminiex.Worker, [arg1, arg2, arg3]),
     ]

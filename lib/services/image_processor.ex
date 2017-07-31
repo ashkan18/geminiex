@@ -19,7 +19,8 @@ defmodule Geminiex.ImageProcessor do
 
   defp read_remote_image(src) do
     remote_file = HTTPoison.get!(src)
-    file_name = Ecto.UUID.generate
+    file_name = :crypto.hash(:md5, src)
+                  |> Base.encode16()
                   |> binary_part(16,16)
     file_path = "/tmp/" <> file_name
     File.write(file_path, remote_file.body)

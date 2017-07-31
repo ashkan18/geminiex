@@ -1,0 +1,10 @@
+---
+version: '2'
+services:
+  geminiex:
+    command: mix test
+    environment:
+    - MIX_ENV=test
+    extends:
+      file: common.yml
+      service: geminiex
