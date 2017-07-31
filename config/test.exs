@@ -12,8 +12,6 @@ config :logger, level: :warn
 # Configure your database
 config :geminiex, Geminiex.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "geminiex_test",
+  database: "gemini_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

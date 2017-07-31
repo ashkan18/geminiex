@@ -4,7 +4,7 @@ defmodule Geminiex.Mixfile do
   def project do
     [app: :geminiex,
      version: "0.0.1",
-     elixir: "~> 1.4",
+     elixir: "~> 1.5",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
@@ -30,7 +30,7 @@ defmodule Geminiex.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.2.0"},
+    [{:phoenix, "~> 1.3.0"},
      {:phoenix_ecto, "~> 3.2.2"},
      {:postgrex, ">= 0.0.0"},
      {:gettext, "~> 0.9"},
