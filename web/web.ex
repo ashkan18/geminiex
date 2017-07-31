@@ -30,9 +30,9 @@ defmodule Geminiex.Web do
     quote do
       use Phoenix.Controller
 
-      alias Geminiex.Repo
-      import Ecto
-      import Ecto.Query, only: [from: 1, from: 2]
+      # alias Geminiex.Repo
+      # import Ecto
+      # import Ecto.Query, only: [from: 1, from: 2]
 
       import Geminiex.Router.Helpers
       import Geminiex.Gettext
@@ -62,9 +62,9 @@ defmodule Geminiex.Web do
     quote do
       use Phoenix.Channel
 
-      alias Geminiex.Repo
-      import Ecto
-      import Ecto.Query, only: [from: 1, from: 2]
+      # alias Geminiex.Repo
+      # import Ecto
+      # import Ecto.Query, only: [from: 1, from: 2]
       import Geminiex.Gettext
     end
   end

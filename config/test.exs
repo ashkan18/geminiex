@@ -9,9 +9,3 @@ config :geminiex, Geminiex.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
-# Configure your database
-config :geminiex, Geminiex.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  database: "gemini_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox

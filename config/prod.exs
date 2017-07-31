@@ -19,7 +19,7 @@ config :geminiex, Geminiex.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
-# config :aprb, Geminiex.Repo,
+# config :geminiex, Geminiex.Repo,
 #   adapter: Ecto.Adapters.Postgres,
 #   username: System.get_env("DB_USER"),
 #   password: System.get_env("DB_PASSWORD"),

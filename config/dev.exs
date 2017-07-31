@@ -21,9 +21,3 @@ config :logger, :console, format: "[$level] $message\n"
 # and calculating stacktraces is usually expensive.
 config :phoenix, :stacktrace_depth, 20
 
-# Configure your database
-config :geminiex, Geminiex.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  database: "gemini_development",
-  hostname: "localhost",
-  pool_size: 10

@@ -14,7 +14,7 @@ config :geminiex, Geminiex.Endpoint,
   pubsub: [name: Geminiex.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
-config :geminiex, ecto_repos: [Geminiex.Repo]
+# config :geminiex, ecto_repos: [Geminiex.Repo]
 
 # Configures Elixir's Logger
 config :logger, :console,
