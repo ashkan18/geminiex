@@ -7,7 +7,6 @@ defmodule Geminiex.ImageProcessor do
       |> open()
       |> process_resize(params)
       |> process_formatting(params)
-      |> verbose
       |> save(in_place: true)
   end
 
@@ -25,10 +24,9 @@ defmodule Geminiex.ImageProcessor do
   end
 
   defp tempfile_path(src) do
-    file_name = :crypto.hash(:md5, src)
+    file_name = "#{:rand.uniform(999_999)}"
                   |> Base.encode16()
-                  |> binary_part(16,16)
-    "/tmp/" <> file_name
+    "/tmp/" <> file_name <> Path.extname(src)
   end
 
   defp process_formatting(image, params) do

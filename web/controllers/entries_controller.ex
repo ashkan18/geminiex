@@ -7,13 +7,12 @@ defmodule Geminiex.EntriesController do
 
   def crop(conn, params) do
     with {:ok, cleaned_params} <- validate_and_convert(params) do
-      processed_image = ImageProcessor.process_image(cleaned_params["src"], cleaned_params)
-      mime_type = MIME.type(processed_image.format)
-      {:ok , image_data} = File.read(processed_image.path)
-      ImageProcessor.delete_temp_image(processed_image.path)
+      image = ImageProcessor.process_image(cleaned_params["src"], cleaned_params)
+      {:ok , image_data} = File.read(image.path)
+      ImageProcessor.delete_temp_image(image.path)
       conn
         |> put_resp_header("content-disposition", "inline")
-        |> put_resp_content_type(mime_type || "image/generic")
+        |> put_resp_content_type(mime_type(image))
         |> send_resp(200, image_data)
     end
   end
@@ -51,5 +50,13 @@ defmodule Geminiex.EntriesController do
   end
   defp force_int(params, attr) do
     if params[attr], do: Map.merge(params, %{ attr => String.to_integer(params[attr]) }), else: params
+  end
+
+  defp mime_type(image) do
+    case image.format || String.replace(image.ext, ".", "") do
+      format when format in ["", nil] -> "jpg" # default to jpg
+      format -> format
+    end
+      |>MIME.type()
   end
 end
