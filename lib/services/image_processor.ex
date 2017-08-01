@@ -2,25 +2,24 @@ defmodule Geminiex.ImageProcessor do
   import Mogrify
 
   def process_image(image_src, params) do
-    tempfile_path = tempfile_path(image_src)
     image_src
-      |> read_remote_image(tempfile_path)
+      |> read_remote_image()
       |> open()
       |> process_resize(params)
       |> process_formatting(params)
       |> verbose
-      |> save(path: String.replace(tempfile_path, "_orig", "_res"))
+      |> save(in_place: true)
   end
 
   def delete_temp_image(image_path) do
     spawn( fn ->
       File.rm(image_path)
-      File.rm(String.replace(image_path, "_res", "_orig"))
     end)
   end
 
-  defp read_remote_image(src, tempfile_path) do
+  defp read_remote_image(src) do
     remote_file = HTTPoison.get!(src)
+    tempfile_path = tempfile_path(src)
     File.write(tempfile_path, remote_file.body)
     tempfile_path
   end
@@ -29,7 +28,7 @@ defmodule Geminiex.ImageProcessor do
     file_name = :crypto.hash(:md5, src)
                   |> Base.encode16()
                   |> binary_part(16,16)
-    "/tmp/" <> file_name <> "_orig"
+    "/tmp/" <> file_name
   end
 
   defp process_formatting(image, params) do
