@@ -6,7 +6,7 @@ defmodule Geminiex.EntriesController do
   action_fallback FallbackController
 
   def crop(conn, params) do
-    with {:ok, cleaned_params} <- convert_and_validate_params(params) do
+    with {:ok, cleaned_params} <- validate_and_convert(params) do
       processed_image = ImageProcessor.process_image(cleaned_params["src"], cleaned_params)
       mime_type = MIME.type(processed_image.format)
       {:ok , image_data} = File.read(processed_image.path)
@@ -18,20 +18,38 @@ defmodule Geminiex.EntriesController do
     end
   end
 
-  defp convert_and_validate_params(params) do
-    if (params["src"]) && (params["width"] && params["height"]) do
-      width = min(String.to_integer(params["width"]), 4000)
-      height = min(String.to_integer(params["height"]), 4000)
-      quality = if params["quality"], do: String.to_integer(params["quality"])
-      #grow = params["grow"] || false)
-      new_param = params
-                    |> Map.merge(%{
-                      "width" => width,
-                      "height" => height,
-                      "quality" => quality})
-      {:ok, params}
-    else
-      {:error, :invalid_request}
+  defp validate_and_convert(params) do
+    with {:ok, validated_params} <- validate_resize_params(params) do
+      cleaned_params = validated_params
+        |> set_max("height")
+        |> set_max("width")
+        |> force_int("quality")
+      {:ok, cleaned_params}
     end
+  end
+
+  defp validate_resize_params(params) do
+    with {:ok, resize_to} <- Map.fetch(params, "resize_to"), {:ok, _src} <- Map.fetch(params, "src") do
+      case resize_to do
+        attr when attr in ["fit", "fill", "limit"] ->
+          unless params["width"] && params["height"], do: {:error, :invalid_request}, else: {:ok, params}
+        "width" ->
+          unless params["width"], do: {:error, :invalid_request}, else: {:ok, params}
+        "height" ->
+          unless params["height"], do: {:error, :invalid_request}, else: {:ok, params}
+        _ ->
+          {:error, :invalid_request}
+      end
+    else
+      :error ->
+        {:error, :invalid_request}
+    end
+  end
+
+  defp set_max(params, attr, max \\ 4000) do
+    if params[attr], do: Map.merge(params, %{ attr => min(String.to_integer(params[attr]), max)}), else: params
+  end
+  defp force_int(params, attr) do
+    if params[attr], do: Map.merge(params, %{ attr => String.to_integer(params[attr]) }), else: params
   end
 end

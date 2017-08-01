@@ -5,10 +5,10 @@ defmodule Geminiex.ImageProcessor do
     image_src
       |> read_remote_image()
       |> open()
-      |> resize("#{params["width"]}x#{params["height"]}")
+      |> process_resize(params)
       |> process_formatting(params)
-      |> save()
-      |> verbose()
+      |> verbose
+      |> save(in_place: true)
   end
 
   def delete_temp_image(image_path) do
@@ -19,15 +19,35 @@ defmodule Geminiex.ImageProcessor do
 
   defp read_remote_image(src) do
     remote_file = HTTPoison.get!(src)
+    tempfile_path = tempfile_path(src)
+    File.write(tempfile_path, remote_file.body)
+    tempfile_path
+  end
+
+  defp tempfile_path(src) do
     file_name = :crypto.hash(:md5, src)
                   |> Base.encode16()
                   |> binary_part(16,16)
-    file_path = "/tmp/" <> file_name
-    File.write(file_path, remote_file.body)
-    file_path
+    "/tmp/" <> file_name
   end
 
   defp process_formatting(image, params) do
     if params["convert_to"], do: format(image, params["convert_to"]), else: image
+  end
+
+  defp process_resize(image, params) do
+    case params["resize_to"] do
+      type_to when type_to in ["fit", "fill", "limit"] ->
+        image
+          |> resize("#{params["width"]}x#{params["height"]}")
+      "width" ->
+        image
+          |> resize(params["width"])
+      "height" ->
+        image
+          |> resize("x#{params["height"]}")
+      _ ->
+        image
+    end
   end
 end
