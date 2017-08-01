@@ -25,15 +25,6 @@ defmodule Geminiex.ModelCase do
     end
   end
 
-  setup tags do
-    # :ok = Ecto.Adapters.SQL.Sandbox.checkout(Geminiex.Repo)
-
-    # unless tags[:async] do
-    #   Ecto.Adapters.SQL.Sandbox.mode(Geminiex.Repo, {:shared, self()})
-    # end
-
-    :ok
-  end
 
   @doc """
   Helper for returning list of errors in model when passed certain data.

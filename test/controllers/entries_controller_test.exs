@@ -18,14 +18,14 @@ defmodule Geminiex.EntriesControllerTest do
 
     test "returns image when processing the image" do
       result = build_conn()
-          |> get("/crop", [src: "https://avatars1.githubusercontent.com/u/1230819", height: "20", width: "20"])
+          |> get("/crop", [src: "https://avatars1.githubusercontent.com/u/1230819", resize_to: "fill", height: "20", width: "20"])
       assert response(result, 200) != nil
       assert Plug.Conn.get_resp_header(result, "content-type") == ["image/png; charset=utf-8"]
     end
 
     test "returns image when processing the image and change format to png" do
       result = build_conn()
-          |> get("/crop", [src: "https://avatars1.githubusercontent.com/u/1230819", height: "20", width: "20", convert_to: "jpg"])
+          |> get("/crop", [src: "https://avatars1.githubusercontent.com/u/1230819", resize_to: "fill", height: "20", width: "20", convert_to: "jpg"])
       assert response(result, 200) != nil
       assert Plug.Conn.get_resp_header(result, "content-type") == ["image/jpeg; charset=utf-8"]
     end
